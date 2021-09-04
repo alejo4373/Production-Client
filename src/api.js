@@ -11,6 +11,7 @@ export const removeTagFromTodo = (id, tag) => axios.delete(`/api/todos/${id}/tag
 export const requestAddTag = (id, tag) => axios.post(`/api/todos/${id}/tags`, {
   name: tag
 })
+export const requestLists = () => axios.get('/api/lists')
 
 export const addJournalEntry = (entry) => axios.post('/api/journal/entries', entry)
 export const fetchJournalEntries = (params) => axios.get('/api/journal/entries', { params })

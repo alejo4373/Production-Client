@@ -10,6 +10,7 @@ class Todos extends Component {
     todoValue: 100,
     todo: null,
     tags: '',
+    listId: '-1'
   }
 
   componentDidMount() {
@@ -20,24 +21,28 @@ class Todos extends Component {
     } else {
       this.props.getAllTodos()
     }
+
+    this.props.requestLists()
   }
 
   /* Event Handlers */
   handleSubmit = (event) => {
     event.preventDefault();
-    const { inputText, todoValue, tags } = this.state;
+    const { inputText, todoValue, tags, listId } = this.state;
 
     const todo = {
       text: inputText.trim(),
       value: todoValue,
       completed: false,
-      tags: sanitizeTags(tags.split(','))
+      tags: sanitizeTags(tags.split(',')),
+      ...(listId !== '-1' && { list_id: listId })
     }
 
     this.setState({
       inputText: '',
       tags: '',
-      todoValue: 100
+      todoValue: 100,
+      listId: '-1'
     })
 
     if (todo.text && todo.value) {
@@ -66,6 +71,8 @@ class Todos extends Component {
           inputText={this.state.inputText}
           todoValue={this.state.todoValue}
           tags={this.state.tags}
+          lists={this.props.lists}
+          listId={this.state.listId}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />

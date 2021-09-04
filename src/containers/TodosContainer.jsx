@@ -16,7 +16,8 @@ import {
   REQUEST_TOGGLE_TODO_COMPLETED,
   REQUEST_FETCH_TODOS_BY_TAGS,
   REQUEST_REMOVE_TAG,
-  REQUEST_ADD_TAG
+  REQUEST_ADD_TAG,
+  REQUEST_LISTS
 } from '../store/actionTypes/todos';
 
 class TodosContainer extends Component {
@@ -71,11 +72,12 @@ class TodosContainer extends Component {
   }
 
   renderTodos = (routeProps) => {
-    const { todos, filter } = this.props
+    const { todos, filter, lists } = this.props
     let filteredTodos = this.applyTodosFilter(todos, filter)
     return (
       <Todos
         todos={filteredTodos}
+        lists={lists}
         deleteTodo={this.deleteTodo}
         toggleCompleted={this.toggleCompleted}
         getAllTodos={this.getAllTodos}
@@ -83,6 +85,7 @@ class TodosContainer extends Component {
         addTodo={this.props.addTodo}
         setTodosFilter={this.props.setTodosFilter}
         filterValue={filter}
+        requestLists={this.props.requestLists}
         {...routeProps}
       />
     )
@@ -144,6 +147,7 @@ const mapDispatchToProps = (dispatch) => {
     setTodosFilter: (filter) => dispatch({ type: SET_TODOS_FILTER, payload: { filter } }),
     removeTagFromTodo: (id, tag) => dispatch({ type: REQUEST_REMOVE_TAG, payload: { id, tag } }),
     requestAddTag: (id, tag) => dispatch({ type: REQUEST_ADD_TAG, payload: { id, tag } }),
+    requestLists: () => dispatch({ type: REQUEST_LISTS }),
   }
 }
 

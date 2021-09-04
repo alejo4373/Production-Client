@@ -6,11 +6,13 @@ import {
   SET_ACTIVE_TODO,
   UPDATE_TODO,
   REMOVE_TAG,
-  ADD_TAG
+  ADD_TAG,
+  RECEIVE_LISTS
 } from '../actionTypes/todos';
 
 const initialState = {
   todos: [],
+  lists: [],
   filter: "all",
   activeTodo: null
 }
@@ -81,9 +83,16 @@ const todosReducer = (state = initialState, { type, payload }) => {
       };
       return newState;
 
+    case RECEIVE_LISTS:
+      const { lists } = payload
+      newState.lists = lists
+      return newState
+
     default:
       return state;
   }
+
+
 }
 
 export default todosReducer;

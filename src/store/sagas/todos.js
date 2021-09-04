@@ -18,7 +18,9 @@ import {
   REQUEST_FETCH_TODO,
   REQUEST_TOGGLE_TODO_COMPLETED,
   REQUEST_REMOVE_TAG,
-  REQUEST_ADD_TAG
+  REQUEST_ADD_TAG,
+  RECEIVE_LISTS,
+  REQUEST_LISTS
 } from '../actionTypes/todos'
 
 function* addTodo(action) {
@@ -113,6 +115,16 @@ function* requestAddTag(action) {
   }
 }
 
+function* requestLists() {
+  try {
+    const { data } = yield call(api.requestLists)
+    yield put({ type: RECEIVE_LISTS, payload: data.payload });
+  } catch (err) {
+    console.log(err)
+    yield put({ type: RECEIVE_ERROR, error: err });
+  }
+}
+
 function* todosSagaWatcher() {
   yield takeEvery(REQUEST_ADD_TODO, addTodo)
   yield takeEvery(REQUEST_FETCH_TODOS, fetchTodos)
@@ -123,6 +135,7 @@ function* todosSagaWatcher() {
   yield takeEvery(REQUEST_TOGGLE_TODO_COMPLETED, toggleTodoCompleted)
   yield takeEvery(REQUEST_REMOVE_TAG, removeTagFromTodo)
   yield takeEvery(REQUEST_ADD_TAG, requestAddTag)
+  yield takeEvery(REQUEST_LISTS, requestLists)
 }
 
 export default todosSagaWatcher;
