@@ -5,14 +5,6 @@ import TodosFilter from './Todos/TodosFilter';
 import TodosList from './Todos/TodosList';
 
 class Todos extends Component {
-  state = {
-    inputText: '',
-    todoValue: 100,
-    todo: null,
-    tags: '',
-    listId: '-1'
-  }
-
   componentDidMount() {
     const tagsQueryString = this.props.location.search
     let tags = (new URLSearchParams(tagsQueryString)).getAll('tags[]')
@@ -21,41 +13,21 @@ class Todos extends Component {
     } else {
       this.props.getAllTodos()
     }
-
-    this.props.requestLists()
   }
 
   /* Event Handlers */
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { inputText, todoValue, tags, listId } = this.state;
-
+  handleSubmit = ({ todoText, todoValue, tags, listId }) => {
     const todo = {
-      text: inputText.trim(),
+      text: todoText.trim(),
       value: todoValue,
       completed: false,
       tags: sanitizeTags(tags.split(',')),
       ...(listId !== '-1' && { list_id: listId })
     }
 
-    this.setState({
-      inputText: '',
-      tags: '',
-      todoValue: 100,
-      listId: '-1'
-    })
-
     if (todo.text && todo.value) {
       this.props.addTodo(todo)
     }
-  }
-
-  handleChange = (event) => {
-    const { name, value } = event.target
-
-    this.setState({
-      [name]: value
-    })
   }
 
   handleFilterChange = (e) => {
@@ -68,13 +40,11 @@ class Todos extends Component {
       <div className='todos-container'>
         <h2>Todos</h2>
         <TodoForm
-          inputText={this.state.inputText}
-          todoValue={this.state.todoValue}
-          tags={this.state.tags}
           lists={this.props.lists}
-          listId={this.state.listId}
-          handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
+          requestLists={this.props.requestLists}
+          cta='Add'
+          resetOnSubmit
         />
         <hr />
         <TodosFilter handleFilterChange={this.handleFilterChange} filterValue={filterValue} />
