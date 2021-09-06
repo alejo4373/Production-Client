@@ -98,11 +98,13 @@ class TodosContainer extends Component {
         {...routeProps}
         getTodo={this.getTodo}
         todo={todo}
+        lists={this.props.lists}
         toggleCompleted={this.toggleCompleted}
         updateTodo={this.updateTodo}
         deleteTodo={this.deleteTodo}
         removeTagFromTodo={this.removeTagFromTodo}
         requestAddTag={this.requestAddTag}
+        requestLists={this.props.requestLists}
       />
     )
   }

@@ -11,7 +11,8 @@ class TodoPage extends Component {
     text: '',
     editing: false,
     tag: '',
-    selectedDay: null
+    selectedDay: null,
+    listId: '-1'
   }
 
   componentDidUpdate(prevProps) {
@@ -19,7 +20,8 @@ class TodoPage extends Component {
     if (todo && todo !== prevProps.todo) {
       this.setState({
         text: todo.text,
-        selectedDay: new Date(this.props.todo.completed_at)
+        selectedDay: new Date(this.props.todo.completed_at),
+        listId: todo.list_id ?? '-1'
       })
     }
   }
@@ -27,6 +29,10 @@ class TodoPage extends Component {
   componentDidMount() {
     const { id } = this.props.match.params
     this.props.getTodo(id)
+    const { lists } = this.props
+    if (!lists.length) {
+      this.props.requestLists()
+    }
   }
 
   handleToggleCompleted = (e) => {
@@ -36,7 +42,7 @@ class TodoPage extends Component {
   handleEditSave = (e) => {
     e.preventDefault()
     const { todo, updateTodo } = this.props
-    const { selectedDay, text } = this.state
+    const { selectedDay, text, listId } = this.state
     const todoUpdates = {}
 
     if (selectedDay.toISOString() !== new Date(todo.completed_at).toISOString()) {
@@ -45,6 +51,10 @@ class TodoPage extends Component {
 
     if (todo.text !== text) {
       todoUpdates.text = text
+    }
+
+    if (listId !== '-1' && listId !== todo.list_id) {
+      todoUpdates.list_id = listId
     }
 
     if (Object.values(todoUpdates).length) {
@@ -64,6 +74,13 @@ class TodoPage extends Component {
     const { value } = e.target
     this.setState({
       tag: value.toLowerCase()
+    })
+  }
+
+  handleListChange = (e) => {
+    const { value } = e.target
+    this.setState({
+      listId: value
     })
   }
 
@@ -101,7 +118,7 @@ class TodoPage extends Component {
   }
 
   render() {
-    const { text, tag, editing, selectedDay } = this.state;
+    const { text, tag, editing, selectedDay, listId } = this.state;
     const { todo } = this.props;
     if (!todo) {
       return <p>Todo not found....</p>
@@ -131,6 +148,13 @@ class TodoPage extends Component {
                 placeholder="What do you have to do?"
               />
               <div>
+                <select value={listId} onChange={this.handleListChange}>
+                  <option value="-1" disabled>Select a list for todo</option>
+                  {
+                    this.props.lists.map(list => (
+                      <option key={list.id} value={list.id}>{list.name}</option>
+                    ))
+                  }</select>
                 <button type="submit">Save</button>
                 <button onClick={this.handleCancelClick}>Cancel</button>
               </div>
