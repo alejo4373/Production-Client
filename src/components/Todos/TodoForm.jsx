@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import TrixEditor from '../shared/TrixEditor';
-import "../../styles/TodoForm.css"
+import React, { useEffect, useState } from 'react'
+import TrixEditor from '../shared/TrixEditor'
+import '../../styles/TodoForm.css'
 import DatePicker from 'react-datepicker'
 
 const TodoForm = ({
@@ -17,7 +17,7 @@ const TodoForm = ({
   const [listId, setListId] = useState('-1')
   const [completedAt, setCompletedAt] = useState(null)
 
-  const onSubmit = (e) => {
+  const onSubmit = e => {
     e.preventDefault()
     handleSubmit({
       todoText,
@@ -52,31 +52,35 @@ const TodoForm = ({
   return (
     <form className="todo-form" onSubmit={onSubmit}>
       <TrixEditor
-        placeholder='What do you want to do?'
+        placeholder="What do you want to do?"
         onChange={setTodoText}
         value={todoText}
       />
       <div className="control-strip">
         <select
           value={listId}
-          onChange={(e) => setListId(e.target.value)}
+          onChange={e => setListId(e.target.value)}
           className="control-strip__control"
         >
-          <option value="-1" disabled>Select a list for todo</option>
+          <option value="-1" disabled>
+            Select a list for todo
+          </option>
           {lists.map(list => (
-            <option key={list.id} value={list.id}>{list.name}</option>
+            <option key={list.id} value={list.id}>
+              {list.name}
+            </option>
           ))}
         </select>
         <input
           className="control-strip__control"
-          onChange={(e) => setTags(e.target.value)}
+          onChange={e => setTags(e.target.value)}
           value={tags}
           placeholder={'Tags: work, misc, etc.'}
           type="text"
         />
         {completedAt ? (
           <div>
-            <label>Completed at:</label>{" "}
+            <label>Completed at:</label>{' '}
             <style>{`
                 /*
                 Override due to default (85px) width cutting am/pm text
@@ -90,29 +94,29 @@ const TodoForm = ({
                 }
               `}</style>
             <DatePicker
-              onChange={(date) => setCompletedAt(date)}
+              onChange={date => setCompletedAt(date)}
               selected={completedAt}
               showTimeInput
               dateFormat="MM/dd/yyyy h:mm aa"
               shouldCloseOnSelect={false}
             />
-          </div>) : null
-        }
+          </div>
+        ) : null}
         <div className="control-strip__two-col-row">
           <input
             className="control-strip__control"
-            onChange={(e) => setTodoValue(e.target.value)}
+            onChange={e => setTodoValue(e.target.value)}
             value={todoValue}
             placeholder={'Value'}
             type="number"
             min="100"
             required
           />
-          <button className="control-strip__control" >{cta}</button>
+          <button className="control-strip__control">{cta}</button>
         </div>
       </div>
     </form>
   )
 }
 
-export default TodoForm;
+export default TodoForm
