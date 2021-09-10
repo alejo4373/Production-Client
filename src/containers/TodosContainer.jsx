@@ -17,8 +17,8 @@ import {
   REQUEST_FETCH_TODOS_BY_TAGS,
   REQUEST_REMOVE_TAG,
   REQUEST_ADD_TAG,
-  REQUEST_LISTS
 } from '../store/actionTypes/todos';
+import { REQUEST_LISTS } from '../store/actionTypes/lists'
 
 class TodosContainer extends Component {
 
@@ -126,7 +126,7 @@ class TodosContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ todos }) => todos
+const mapStateToProps = ({ todos, lists }) => ({ todos: todos.todos, lists: lists.lists })
 
 const mapDispatchToProps = (dispatch) => {
   return {
