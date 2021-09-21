@@ -72,7 +72,7 @@ class TodosContainer extends Component {
   }
 
   renderTodos = (routeProps) => {
-    const { todos, filter, lists } = this.props
+    const { todos, filter, lists } = this.props.todos
     let filteredTodos = this.applyTodosFilter(todos, filter)
     return (
       <Todos
@@ -92,7 +92,7 @@ class TodosContainer extends Component {
   }
 
   renderTodoPage = (routeProps) => {
-    const todo = this.props.activeTodo
+    const todo = this.props.todos.activeTodo
     return (
       <TodoPage
         {...routeProps}
@@ -126,7 +126,7 @@ class TodosContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ todos, lists }) => ({ todos: todos.todos, lists: lists.lists })
+const mapStateToProps = ({ todos, lists }) => ({ todos: todos, lists: lists.lists })
 
 const mapDispatchToProps = (dispatch) => {
   return {
