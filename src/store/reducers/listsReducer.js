@@ -1,4 +1,4 @@
-import { RECEIVE_LISTS } from '../actionTypes/lists';
+import { RECEIVE_LISTS, RECEIVE_NEW_LIST } from '../actionTypes/lists';
 
 const defaultListsState = {
   lists: []
@@ -10,6 +10,11 @@ const listsReducer = (state = defaultListsState, { type, payload }) => {
     case RECEIVE_LISTS:
       newState.lists = payload.lists
       return newState;
+
+    case RECEIVE_NEW_LIST:
+      newState.lists = [payload.list, ...newState.lists]
+      return newState;
+
 
     default:
       return state;

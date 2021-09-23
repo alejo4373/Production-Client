@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { REQUEST_LISTS } from '../store/actionTypes/lists';
+import { REQUEST_ADD_LIST, REQUEST_LISTS } from '../store/actionTypes/lists';
 
 export const useListsState = () => {
   const { lists } = useSelector(rootState => rootState.lists)
@@ -11,4 +11,11 @@ export const useListsState = () => {
   }, [dispatch])
 
   return { lists }
+}
+
+export const useRequestAddList = () => {
+  const dispatch = useDispatch()
+  return (name) => {
+    dispatch({ type: REQUEST_ADD_LIST, payload: { name } })
+  }
 }

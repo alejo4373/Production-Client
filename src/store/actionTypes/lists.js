@@ -1,2 +1,5 @@
 export const REQUEST_LISTS = 'REQUEST_LISTS';
+export const REQUEST_ADD_LIST = 'REQUEST_ADD_LIST';
+
 export const RECEIVE_LISTS = 'RECEIVE_LISTS';
+export const RECEIVE_NEW_LIST = 'RECEIVE_NEW_LIST';

@@ -12,6 +12,7 @@ export const requestAddTag = (id, tag) => axios.post(`/api/todos/${id}/tags`, {
   name: tag
 })
 export const requestLists = () => axios.get('/api/lists')
+export const requestAddList = (name) => axios.post('/api/lists', { name })
 
 export const addJournalEntry = (entry) => axios.post('/api/journal/entries', entry)
 export const fetchJournalEntries = (params) => axios.get('/api/journal/entries', { params })
