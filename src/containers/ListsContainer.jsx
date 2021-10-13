@@ -1,30 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { NewListForm } from '../components/Lists/NewListForm';
-import { useListsState, useRequestAddList } from './ListContainer.hooks';
+import React from 'react'
+import { AllLists } from '../components/Lists/AllLists'
+import { useListsState, useRequestAddList } from './ListContainer.hooks'
+import { Switch, Route, useLocation, useRouteMatch } from 'react-router-dom'
+import { ListPage } from '../components/Lists/ListPage'
 
 const Lists = () => {
   const { lists } = useListsState()
   const requestAddList = useRequestAddList()
+  const location = useLocation()
+  const match = useRouteMatch()
 
   if (!lists.length) return <div>Loading...</div>
 
-  const handleSubmit = (listName) => {
+  const handleSubmit = listName => {
     requestAddList(listName)
   }
 
   return (
-    <div className="lists">
-      <h2>Lists</h2>
-      <NewListForm handleSubmit={handleSubmit} />
-      <ul>
-        {lists.map(list => (
-          <li key={list.id}>
-            <Link to={`'/lists/${list.id}`}>{list.name}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Switch>
+      <Route path={`${match.path}/:id`}>
+        <ListPage lists={lists} />
+      </Route>
+      <Route path="/">
+        <AllLists lists={lists} handleSubmit={handleSubmit} />
+      </Route>
+    </Switch>
   )
 }
 

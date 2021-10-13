@@ -7,9 +7,9 @@ const TodoForm = ({
   todo,
   lists,
   handleSubmit,
-  requestLists,
   cta = 'Save',
-  resetOnSubmit
+  resetOnSubmit,
+  isInList
 }) => {
   const [todoText, setTodoText] = useState('')
   const [todoValue, setTodoValue] = useState(100)
@@ -36,12 +36,6 @@ const TodoForm = ({
   }
 
   useEffect(() => {
-    if (!lists.length) {
-      requestLists()
-    }
-  }, [requestLists, lists.length])
-
-  useEffect(() => {
     if (todo) {
       if (todo.text) setTodoText(todo.text)
       if (todo.tags) setTags(todo.tags)
@@ -57,20 +51,22 @@ const TodoForm = ({
         value={todoText}
       />
       <div className="control-strip">
-        <select
-          value={listId}
-          onChange={e => setListId(e.target.value)}
-          className="control-strip__control"
-        >
-          <option value="-1" disabled>
-            Select a list for todo
-          </option>
-          {lists.map(list => (
-            <option key={list.id} value={list.id}>
-              {list.name}
+        {!isInList && lists.length ? (
+          <select
+            value={listId}
+            onChange={e => setListId(e.target.value)}
+            className="control-strip__control"
+          >
+            <option value="-1" disabled>
+              Select a list for todo
             </option>
-          ))}
-        </select>
+            {lists.map(list => (
+              <option key={list.id} value={list.id}>
+                {list.name}
+              </option>
+            ))}
+          </select>
+        ) : null}
         <input
           className="control-strip__control"
           onChange={e => setTags(e.target.value)}

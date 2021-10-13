@@ -19,6 +19,7 @@ import {
   REQUEST_ADD_TAG,
 } from '../store/actionTypes/todos';
 import { REQUEST_LISTS } from '../store/actionTypes/lists'
+import { applyTodosFilter } from '../util/todos';
 
 class TodosContainer extends Component {
 
@@ -55,27 +56,18 @@ class TodosContainer extends Component {
     this.props.requestAddTag(id, tag)
   }
 
-  applyTodosFilter = (todos, filter) => {
-    switch (filter) {
-      case "completed":
-        return todos.filter(todo => todo.completed);
-      case "incomplete":
-        return todos.filter(todo => !todo.completed);
-      case "all":
-      default:
-        return todos
-    }
-  }
 
   getTodosByTags = async (tagsQueryString) => {
     this.props.fetchTodosByTags(tagsQueryString)
   }
 
   renderTodos = (routeProps) => {
-    const { todos, filter, lists } = this.props.todos
-    let filteredTodos = this.applyTodosFilter(todos, filter)
+    const { todos, filter } = this.props.todos
+    const { lists } = this.props
+    let filteredTodos = applyTodosFilter(todos, filter)
     return (
       <Todos
+        title="All Todos"
         todos={filteredTodos}
         lists={lists}
         deleteTodo={this.deleteTodo}

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { sanitizeTags } from '../util';
-import TodoForm from './Todos/TodoForm';
-import TodosFilter from './Todos/TodosFilter';
-import TodosList from './Todos/TodosList';
+import React, { Component } from 'react'
+import { sanitizeTags } from '../util'
+import TodoForm from './Todos/TodoForm'
+import TodosFilter from './Todos/TodosFilter'
+import TodosList from './Todos/TodosList'
 
 class Todos extends Component {
   componentDidMount() {
     const tagsQueryString = this.props.location.search
-    let tags = (new URLSearchParams(tagsQueryString)).getAll('tags[]')
+    let tags = new URLSearchParams(tagsQueryString).getAll('tags[]')
     if (tags.length) {
       this.props.getTodosByTags(tagsQueryString)
     } else {
@@ -30,24 +30,28 @@ class Todos extends Component {
     }
   }
 
-  handleFilterChange = (e) => {
+  handleFilterChange = e => {
     this.props.setTodosFilter(e.target.value)
   }
 
   render() {
-    const { todos, toggleCompleted, filterValue } = this.props;
+    const { todos, toggleCompleted, filterValue, isInList } = this.props
     return (
-      <div className='todos-container'>
-        <h2>Todos</h2>
+      <div className="todos-container">
+        <h2>{this.props.title}</h2>
         <TodoForm
           lists={this.props.lists}
+          isInList={isInList}
           handleSubmit={this.handleSubmit}
           requestLists={this.props.requestLists}
-          cta='Add'
+          cta="Add"
           resetOnSubmit
         />
         <hr />
-        <TodosFilter handleFilterChange={this.handleFilterChange} filterValue={filterValue} />
+        <TodosFilter
+          handleFilterChange={this.handleFilterChange}
+          filterValue={filterValue}
+        />
         <TodosList
           title="Todos"
           todos={todos}
@@ -59,4 +63,4 @@ class Todos extends Component {
     )
   }
 }
-export default Todos;
+export default Todos

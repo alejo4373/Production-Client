@@ -11,7 +11,6 @@ import {
 
 const initialState = {
   todos: [],
-  lists: [],
   filter: "all",
   activeTodo: null
 }
@@ -36,6 +35,7 @@ const todosReducer = (state = initialState, { type, payload }) => {
 
     case RECEIVE_TODOS:
       newState.todos = todos
+      newState.filter = 'all'
       return newState;
 
     case REMOVE_TODO:
