@@ -13,6 +13,7 @@ class Todos extends Component {
     } else {
       this.props.getAllTodos()
     }
+    this.props.requestLists()
   }
 
   /* Event Handlers */
@@ -43,7 +44,6 @@ class Todos extends Component {
           lists={this.props.lists}
           isInList={isInList}
           handleSubmit={this.handleSubmit}
-          requestLists={this.props.requestLists}
           cta="Add"
           resetOnSubmit
         />
