@@ -17,14 +17,14 @@ class JournalPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: "",
-      tags: "",
+      text: '',
+      tags: ''
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { text, tags } = this.state;
+  handleSubmit = event => {
+    event.preventDefault()
+    const { text, tags } = this.state
 
     if (text && tags.length) {
       const journalEntry = {
@@ -32,7 +32,7 @@ class JournalPage extends Component {
         tags: sanitizeTags(tags.split(','))
       }
 
-      this.props.addJournalEntry(journalEntry);
+      this.props.addJournalEntry(journalEntry)
       this.setState({
         text: '',
         tags: ''
@@ -40,26 +40,21 @@ class JournalPage extends Component {
     }
   }
 
-  handleChange = (event) => {
-    const { name, value } = event.target
-
-    this.setState({
-      [name]: value
-    })
+  handleTagsChange = tags => {
+    this.setState({ tags })
   }
 
-  handleEntryText = (content) => {
+  handleEntryText = content => {
     this.setState({
       text: content
     })
   }
 
-
   fetchTodosAndJournalEntries = () => {
     let { date } = this.props.match.params
     let client_tz = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    if (date === "today") {
+    if (date === 'today') {
       let today = getDateString(new Date())
       this.props.fetchJournalEntries(today, client_tz)
       this.props.fetchTodos({
@@ -90,19 +85,23 @@ class JournalPage extends Component {
   }
 
   render() {
-    const { entries, todos, match: { params } } = this.props;
-    const { text, tags } = this.state;
+    const {
+      entries,
+      todos,
+      match: { params }
+    } = this.props
+    const { text, tags } = this.state
 
-    let date;
-    let dateStr;
+    let date
+    let dateStr
     if (params.date === 'today') {
       date = new Date()
-      dateStr = `Today ${(new Date()).toDateString()}`
+      dateStr = `Today ${new Date().toDateString()}`
     } else {
       const [year, month, day] = params.date.split('-')
       date = new Date(year, parseInt(month) - 1, day)
       if (!isNaN(date.getTime())) {
-        dateStr = date.toDateString();
+        dateStr = date.toDateString()
       } else {
         return <Redirect to={`/journal/today`} />
       }
@@ -119,29 +118,29 @@ class JournalPage extends Component {
     const nextMMDD = getMonthDayString(nextDate)
 
     return (
-      <div className="journal-page" >
+      <div className="journal-page">
         <nav>
-          <Link to={`${prevDateStr}`}>{`←${prevMMDD}`}</Link>{" "}
+          <Link to={`${prevDateStr}`}>{`←${prevMMDD}`}</Link>{' '}
           <Link to={`${nextDateStr}`}>{`${nextMMDD}→`}</Link>
         </nav>
         <h2>{dateStr}</h2>
         <JournalEntryEditor
           handleEntryText={this.handleEntryText}
-          handleTagsChange={this.handleChange}
+          handleTagsChange={this.handleTagsChange}
           handleSubmit={this.handleSubmit}
           entryText={text}
           entryTags={tags}
         />
         <div>
-          <ul className="list">{
-            entries.map(entry => (
+          <ul className="list">
+            {entries.map(entry => (
               <JournalEntry
                 key={entry.id}
                 entry={entry}
                 updateJournalEntry={this.updateJournalEntry}
               />
-            ))
-          }</ul>
+            ))}
+          </ul>
         </div>
         <TodosList todos={todos} title="Todos Completed" minimal />
       </div>

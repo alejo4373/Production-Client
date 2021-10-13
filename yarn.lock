@@ -8933,7 +8933,7 @@ react-scripts@^3.4.3:
   optionalDependencies:
     fsevents "2.1.2"
 
-react-trix-rte@^1.0.13:
+react-trix-rte@^1.0.14:
   version "1.0.14"
   resolved "https://registry.yarnpkg.com/react-trix-rte/-/react-trix-rte-1.0.14.tgz#9275e0056ee048455df5ee969194a6f8c8fa9f98"
   integrity sha512-qhQtRTdU77VM3EkDhGmpTwhYHGXr5lsf65B3KTnQuce041B0m0k1PepoO3kccox/HiHB6R4p74/7ZE/kVtH70A==

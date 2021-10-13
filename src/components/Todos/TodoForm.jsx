@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import TrixEditor from '../shared/TrixEditor'
-import '../../styles/TodoForm.css'
+import TrixEditor from '../shared/TrixEditor/TrixEditor'
 import DatePicker from 'react-datepicker'
+import TagsInput from '../shared/TagsInput/TagsInput'
+import '../../styles/control-strip.css'
 
 const TodoForm = ({
   todo,
@@ -49,6 +50,7 @@ const TodoForm = ({
         placeholder="What do you want to do?"
         onChange={setTodoText}
         value={todoText}
+        isForTodo={true}
       />
       <div className="control-strip">
         {!isInList && lists.length ? (
@@ -67,13 +69,8 @@ const TodoForm = ({
             ))}
           </select>
         ) : null}
-        <input
-          className="control-strip__control"
-          onChange={e => setTags(e.target.value)}
-          value={tags}
-          placeholder={'Tags: work, misc, etc.'}
-          type="text"
-        />
+
+        <TagsInput onChange={value => setTags(value)} value={tags} />
         {completedAt ? (
           <div>
             <label>Completed at:</label>{' '}

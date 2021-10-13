@@ -1,0 +1,8 @@
+.editor {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.editor .trix-editor-small {
+  min-height: unset;
+  padding: 0.4em 0.6em;
+}

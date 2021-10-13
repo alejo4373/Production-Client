@@ -4,10 +4,10 @@ import {
   ReactTrixRTEToolbar as TrixToolbar
 } from 'react-trix-rte'
 import Trix from 'trix'
-import "../../styles/TrixEditor.css"
+import './TrixEditor.css'
 
-const Editor = ({ value, onChange, placeholder, id }) => {
-  let options = ["heading1", "bold", "italic", "link", "bullet", "number", "undo", "redo"]
+const Editor = ({ value, onChange, placeholder, id, isForTodo }) => {
+  let options = ['heading1', 'bold', 'italic', 'link', 'bullet', 'number', 'undo', 'redo']
   let editorRef = useRef(null)
   const [editorKey, setEditorKey] = useState(0)
 
@@ -39,11 +39,10 @@ const Editor = ({ value, onChange, placeholder, id }) => {
     if (editor && !editor.getDocument().isEqualTo(docFromValue)) {
       setEditorKey(editorKey + 1)
     }
-
   }, [value, editorKey])
 
   return (
-    <div className="editor" >
+    <div className="editor">
       <TrixToolbar
         toolbarId={`trix-toolbar${id ? '-' + id : ''}`}
         toolbarActions={options}
@@ -56,7 +55,7 @@ const Editor = ({ value, onChange, placeholder, id }) => {
         onChange={handleChange}
         trixInputRef={editorRef}
         toolbarId={`trix-toolbar${id ? '-' + id : ''}`}
-        trixEditorOptions={{ className: "trix-editor-small" }}
+        className={isForTodo ? 'trix-editor-small' : null}
       />
     </div>
   )

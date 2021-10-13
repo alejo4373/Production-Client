@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { get24HourTimeString } from '../../util';
 import '../../styles/JournalEntry.css'
 import { MoreMenu } from '../shared/MoreMenu';
-import TrixEditor from '../shared/TrixEditor';
+import TrixEditor from '../shared/TrixEditor/TrixEditor'
 
 const JournalEntry = ({ entry, updateJournalEntry }) => {
   const date = new Date(entry.ts)

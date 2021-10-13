@@ -1,25 +1,22 @@
 import React from 'react';
-import TrixEditor from '../shared/TrixEditor'
+import TrixEditor from '../shared/TrixEditor/TrixEditor'
+import TagsInput from '../shared/TagsInput/TagsInput'
+import '../../styles/control-strip.css'
 
-const JournalEntryEditor = (props) => {
+const JournalEntryEditor = props => {
   const { handleEntryText, handleTagsChange, handleSubmit, entryText, entryTags } = props
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="control-strip">
       <TrixEditor
         onChange={handleEntryText}
         value={entryText}
-        placeholder={'What\'s in your head?'}
+        placeholder={"What's in your head?"}
       />
-      <input
-        name='tags'
-        onChange={handleTagsChange}
-        value={entryTags}
-        placeholder={'Tags'}
-        type="text"
-        required
-      />
-      <button>+</button>
+      <div className="control-strip__two-col-row">
+        <TagsInput onChange={value => handleTagsChange(value)} value={entryTags} />
+        <button className="control-strip__control">Add</button>
+      </div>
     </form>
   )
 }
