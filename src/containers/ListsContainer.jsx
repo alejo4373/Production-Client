@@ -5,12 +5,9 @@ import { Switch, Route, useLocation, useRouteMatch } from 'react-router-dom'
 import { ListPage } from '../components/Lists/ListPage'
 
 const Lists = () => {
-  const { lists } = useListsState()
+  const { lists, loading } = useListsState()
   const requestAddList = useRequestAddList()
-  const location = useLocation()
   const match = useRouteMatch()
-
-  if (!lists.length) return <div>Loading...</div>
 
   const handleSubmit = listName => {
     requestAddList(listName)
@@ -22,7 +19,7 @@ const Lists = () => {
         <ListPage lists={lists} />
       </Route>
       <Route path="/">
-        <AllLists lists={lists} handleSubmit={handleSubmit} />
+        <AllLists lists={lists} loading={loading} handleSubmit={handleSubmit} />
       </Route>
     </Switch>
   )
