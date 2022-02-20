@@ -2,9 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { NewListForm } from './NewListForm'
 
-export const AllLists = ({ lists, loading, handleSubmit }) => {
-  if (loading) return <div>Loading...</div>
-
+export const AllLists = ({ lists, handleSubmit }) => {
   return (
     <div className="lists">
       <h2>Lists</h2>

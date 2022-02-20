@@ -12,6 +12,8 @@ export const ListPage = ({ lists }) => {
     useListPageState(id)
   const filteredTodos = applyTodosFilter(todos.todos, todos.filter)
   const currList = lists.find(list => list.id === parseInt(id))
+
+  if (!lists.length) return <p>Loading...</p>
   return (
     <div>
       <Todos

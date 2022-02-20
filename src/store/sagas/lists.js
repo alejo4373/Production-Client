@@ -5,19 +5,17 @@ import {
   REQUEST_LISTS,
   REQUEST_ADD_LIST,
   RECEIVE_LISTS,
-  RECEIVE_NEW_LIST
+  RECEIVE_NEW_LIST,
+  REQUEST_LISTS_PENDING
 } from '../actionTypes/lists'
 
 function* requestLists() {
   try {
+    yield put({ type: REQUEST_LISTS_PENDING })
     const { data } = yield call(api.requestLists)
     yield put({
       type: RECEIVE_LISTS,
-      payload: { lists: data.payload.lists, loading: true }
-    })
-    yield put({
-      type: RECEIVE_LISTS,
-      payload: { lists: data.payload.lists, loading: false }
+      payload: { lists: data.payload.lists }
     })
   } catch (err) {
     console.log('ERROR in lists saga => ', err)

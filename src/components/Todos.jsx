@@ -13,7 +13,7 @@ class Todos extends Component {
     } else {
       this.props.getAllTodos()
     }
-    this.props.requestLists()
+    if (this.props.requestLists) this.props.requestLists()
   }
 
   /* Event Handlers */
