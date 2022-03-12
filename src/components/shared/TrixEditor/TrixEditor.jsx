@@ -32,6 +32,11 @@ const Editor = ({ value, onChange, placeholder, id, isForTodo }) => {
       when updating it. It only reads its value once, when mounting
       hence the defaultValue prop.
 
+      This is only necessary when TrixEditor is rendered by  TodoForm when 
+      rendered by TodoPage because when TodoPage renders the 1st time there's no 
+      todo, once the todo is fetched we want the fetched todo text to show 
+      up in the editor. 
+
       This might not be necessary if I mount the editor on click of the text
       assuming I don't want the editor always visible but only when the user
       clicks the text of the todo, intending to change it.
