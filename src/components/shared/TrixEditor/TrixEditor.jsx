@@ -1,51 +1,30 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect } from 'react'
 import {
   ReactTrixRTEInput as TrixEditor,
   ReactTrixRTEToolbar as TrixToolbar
 } from 'react-trix-rte'
-import Trix from 'trix'
+import 'trix'
+import TrixEditorSkeleton from './subcomponents/TrixEditorSkeleton'
 import './TrixEditor.css'
 
-const Editor = ({ value, onChange, placeholder, id, isForTodo }) => {
+const Editor = ({ value, onChange, placeholder, id, isForTodo, loading }) => {
   let options = ['heading1', 'bold', 'italic', 'link', 'bullet', 'number', 'undo', 'redo']
   let editorRef = useRef(null)
-  const [editorKey, setEditorKey] = useState(0)
 
   const handleChange = (e, value) => {
     onChange(value)
   }
 
+  /* If value was updated to empty string (e.g on submit) reset the content of trix-editor */
   useEffect(() => {
+    if (!editorRef.current) return
     const { editor } = editorRef.current
     if (value.length < 1 && editor.getDocument().toString().length > 1) {
       editor.loadJSON({ document: [] })
     }
   }, [value])
 
-  useEffect(() => {
-    const { editor } = editorRef.current
-    let docFromValue = Trix.Document.fromHTML(value)
-
-    /*
-      Hack to trigger a new editor being mounted with the newest value.
-      This is necessary because the content of the editor doesn't update
-      when updating it. It only reads its value once, when mounting
-      hence the defaultValue prop.
-
-      This is only necessary when TrixEditor is rendered by  TodoForm when 
-      rendered by TodoPage because when TodoPage renders the 1st time there's no 
-      todo, once the todo is fetched we want the fetched todo text to show 
-      up in the editor. 
-
-      This might not be necessary if I mount the editor on click of the text
-      assuming I don't want the editor always visible but only when the user
-      clicks the text of the todo, intending to change it.
-    */
-    if (editor && !editor.getDocument().isEqualTo(docFromValue)) {
-      setEditorKey(editorKey + 1)
-    }
-  }, [value, editorKey])
-
+  if (loading) return <TrixEditorSkeleton inline={isForTodo} />
   return (
     <div className="editor">
       <TrixToolbar
@@ -54,7 +33,6 @@ const Editor = ({ value, onChange, placeholder, id, isForTodo }) => {
         disableGroupingAction={true}
       />
       <TrixEditor
-        key={editorKey} // To make the editor re-render on new text through props
         defaultValue={value}
         placeholder={placeholder}
         onChange={handleChange}

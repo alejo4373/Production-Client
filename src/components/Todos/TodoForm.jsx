@@ -17,6 +17,7 @@ const TodoForm = ({
   const [tags, setTags] = useState('')
   const [listId, setListId] = useState('-1')
   const [completedAt, setCompletedAt] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const onSubmit = e => {
     e.preventDefault()
@@ -37,11 +38,10 @@ const TodoForm = ({
   }
 
   useEffect(() => {
-    if (todo) {
-      if (todo.text) setTodoText(todo.text)
-      if (todo.tags) setTags(todo.tags)
-      if (todo.list_id) setListId(todo.list_id)
-    }
+    if (todo?.text) setTodoText(todo.text)
+    if (todo?.tags) setTags(todo.tags)
+    if (todo?.list_id) setListId(todo.list_id)
+    setLoading(false)
   }, [todo])
 
   return (
@@ -51,6 +51,7 @@ const TodoForm = ({
         onChange={setTodoText}
         value={todoText}
         isForTodo={true}
+        loading={loading}
       />
       <div className="control-strip">
         {!isInList && lists.length ? (
