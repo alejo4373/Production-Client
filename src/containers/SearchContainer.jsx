@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { SearchForm } from '../components/Search/SearchForm';
+import React, { useState } from 'react'
+import { SearchForm } from '../components/Search/SearchForm'
 import * as api from '../api'
-import JournalEntry from '../components/Journal/JournalEntry';
-import TodosList from '../components/Todos/TodosList';
+import JournalEntry from '../components/Journal/JournalEntry'
+import TodosList from '../components/Todos/TodosList'
 
 const SearchContainer = () => {
   /*
@@ -10,7 +10,7 @@ const SearchContainer = () => {
    *  This state I don't forsee having to share widely nor having to travel
    *  deeply in the component tree nor needed to be remembered across route
    *  transitions, therefore I will use only React's built-in state for now
-  */
+   */
 
   const itemOptions = {
     ALL: 'ALL',
@@ -18,15 +18,15 @@ const SearchContainer = () => {
     JOURNAL: 'JOURNAL'
   }
 
-  const [searchTerms, setSearchTerms] = useState("")
+  const [searchTerms, setSearchTerms] = useState('')
   const [itemsSelectedOption, setItemsSelectedOption] = useState(itemOptions.ALL)
   const [todos, setTodos] = useState([])
   const [entries, setEntries] = useState([])
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     console.log('Submitting', searchTerms, itemsSelectedOption)
-    let todosResults = [];
+    let todosResults = []
     let entriesResults = []
     if (itemsSelectedOption === itemOptions.ALL) {
       todosResults = (await api.fetchTodos({ text: searchTerms })).data.payload.todos
@@ -51,19 +51,15 @@ const SearchContainer = () => {
         setItemsSelectedOption={setItemsSelectedOption}
       />
       <div>
-        <ul className="list">{
-          entries.map(entry => (
-            <JournalEntry
-              key={entry.id}
-              entry={entry}
-            />
-          ))
-        }</ul>
+        <ul className="list">
+          {entries.map(entry => (
+            <JournalEntry key={entry.id} entry={entry} showFullDate={true} />
+          ))}
+        </ul>
       </div>
       <TodosList todos={todos} title="Todos" minimal />
-    </div >
+    </div>
   )
 }
-
 
 export default SearchContainer

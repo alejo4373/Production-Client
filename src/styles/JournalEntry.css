@@ -14,33 +14,11 @@ https://www.smashingmagazine.com/2016/06/battling-bem-extended-edition-common-pr
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.tooltip {
-  position: relative;
-}
-
-.tooltip__text {
-  visibility: hidden;
-  background-color: rgba(100, 100, 100, .6);
+.entry__date {
+  display: inline-block;
+  background-color: rgba(168, 168, 168, 0.6);
   border-radius: 4px;
   padding: 0 4px;
-
-  position: absolute;
-  z-index: 1;
-  bottom: 140%;
   white-space: nowrap;
-  margin-left: -400%;
-}
-
-.tooltip__text::after {
-  content: " ";
-  position: absolute;
-  top: 100%;
-  left: 78%;
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(100, 100, 100, .6) transparent transparent;
-}
-
-.tooltip:hover .tooltip__text {
-  visibility: visible;
+  margin-bottom: 8px;
 }

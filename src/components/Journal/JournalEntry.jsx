@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { get24HourTimeString } from '../../util';
+import React, { useState } from 'react'
+import { get24HourTimeString } from '../../util'
 import '../../styles/JournalEntry.css'
-import { MoreMenu } from '../shared/MoreMenu';
+import { MoreMenu } from '../shared/MoreMenu'
 import TrixEditor from '../shared/TrixEditor/TrixEditor'
 
-const JournalEntry = ({ entry, updateJournalEntry }) => {
+const JournalEntry = ({ entry, updateJournalEntry, showFullDate }) => {
   const date = new Date(entry.ts)
   const time = get24HourTimeString(date)
   const [text, setText] = useState(entry.text)
@@ -14,11 +14,11 @@ const JournalEntry = ({ entry, updateJournalEntry }) => {
     setEditing(true)
   }
 
-  const handleTextChange = (content) => {
+  const handleTextChange = content => {
     setText(content)
   }
 
-  const handleSaveEdits = (e) => {
+  const handleSaveEdits = e => {
     setEditing(false)
     const updates = { text }
     updateJournalEntry(entry.id, updates)
@@ -35,30 +35,24 @@ const JournalEntry = ({ entry, updateJournalEntry }) => {
 
   return (
     <li className="entry">
-      {
-        editing ? (
-          <div>
-            <TrixEditor value={text} id={entry.id} onChange={handleTextChange} />
-            <button onClick={handleSaveEdits}>Save</button>
-            <button onClick={handleCancelEdits}>Cancel</button>
-          </div>
-        ) : (
-          <div>
-            <div className="entry__text" dangerouslySetInnerHTML={{ __html: text }}></div>
-            <MoreMenu handleEditClick={handleEditing} handleDeleteClick={handleDelete} />
-          </div>
-        )
-      }
+      <span className="entry__date">{showFullDate ? date.toLocaleString() : time}</span>
+      {editing ? (
+        <div>
+          <TrixEditor value={text} id={entry.id} onChange={handleTextChange} />
+          <button onClick={handleSaveEdits}>Save</button>
+          <button onClick={handleCancelEdits}>Cancel</button>
+        </div>
+      ) : (
+        <div>
+          <div className="entry__text" dangerouslySetInnerHTML={{ __html: text }}></div>
+          <MoreMenu handleEditClick={handleEditing} handleDeleteClick={handleDelete} />
+        </div>
+      )}
       <div>
-        <span className="entry__date tooltip">
-          {time}
-          <span className="tooltip__text">{date.toLocaleString()}</span>
-        </span>
         <p>🏷 {entry.tags.join(', ')}</p>
       </div>
-
     </li>
   )
 }
 
-export default JournalEntry;
+export default JournalEntry
