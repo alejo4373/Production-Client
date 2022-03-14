@@ -1,13 +1,13 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
 import * as api from '../../api'
 import { RECEIVE_ERROR } from '../actionTypes/comm'
 import {
-  REQUEST_LISTS,
-  REQUEST_ADD_LIST,
   RECEIVE_LISTS,
   RECEIVE_NEW_LIST,
+  REQUEST_ADD_LIST,
+  REQUEST_LISTS,
   REQUEST_LISTS_PENDING
 } from '../actionTypes/lists'
+import { call, put, takeEvery } from 'redux-saga/effects'
 
 function* requestLists() {
   try {
@@ -18,7 +18,7 @@ function* requestLists() {
       payload: { lists: data.payload.lists }
     })
   } catch (err) {
-    console.log('ERROR in lists saga => ', err)
+    console.error('ERROR in lists saga => ', err)
     yield put({ type: RECEIVE_ERROR, error: err })
   }
 }
@@ -31,7 +31,7 @@ function* requestAddList(action) {
       payload: { list: data.payload.list }
     })
   } catch (err) {
-    console.log('ERROR in lists saga => ', err)
+    console.error('ERROR in lists saga => ', err)
     yield put({ type: RECEIVE_ERROR, error: err })
   }
 }

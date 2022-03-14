@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { REQUEST_AUTH_LOGIN, REQUEST_AUTH_SIGNUP } from '../store/actionTypes/auth'
-import LoginForm from '../components/Auth/LoginForm';
-import SignupForm from '../components/Auth/SignupForm';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import LoginForm from '../components/Auth/LoginForm'
+import ReCAPTCHA from 'react-google-recaptcha'
+import React, { Component } from 'react'
+import SignupForm from '../components/Auth/SignupForm'
 
 class AuthContainer extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       username: '',
       password: '',
@@ -19,12 +19,11 @@ class AuthContainer extends Component {
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault()
     if (this.state.humanVerified) {
-
       const formName = e.target.name
-      if (formName === "signup") {
+      if (formName === 'signup') {
         this.props.signupUser(this.state)
       } else {
         this.props.loginUser(this.state)
@@ -36,16 +35,15 @@ class AuthContainer extends Component {
     }
   }
 
-  handleChange = (e) => {
-    const { name, value } = e.target;
+  handleChange = e => {
+    const { name, value } = e.target
     this.setState({
       [name]: value
     })
   }
 
-  handleCaptcha = (token) => {
+  handleCaptcha = token => {
     if (token) {
-      console.log('captcha token:', token)
       this.setState({
         message: 'You can now log',
         humanVerified: true,
@@ -60,7 +58,7 @@ class AuthContainer extends Component {
     }
   }
 
-  handleCaptchaError = (err) => {
+  handleCaptchaError = err => {
     this.setState({
       humanVerified: false,
       recaptchaToken: '',
@@ -68,8 +66,8 @@ class AuthContainer extends Component {
     })
   }
 
-  renderLoginForm = (routeProps) => {
-    const { username, password } = this.state;
+  renderLoginForm = routeProps => {
+    const { username, password } = this.state
     return (
       <LoginForm
         username={username}
@@ -81,8 +79,8 @@ class AuthContainer extends Component {
     )
   }
 
-  renderSignupForm = (routeProps) => {
-    const { username, password, email } = this.state;
+  renderSignupForm = routeProps => {
+    const { username, password, email } = this.state
     return (
       <SignupForm
         username={username}
@@ -97,17 +95,16 @@ class AuthContainer extends Component {
 
   render() {
     const { history, location, auth } = this.props
-    const { referrer } = location.state || { referrer: "/profile" }
+    const { referrer } = location.state || { referrer: '/profile' }
     if (auth.loggedIn) {
       history.replace(referrer)
     }
 
     return (
       <>
-        {location.state && location.state.referrer
-          ? <p> You need to log in to go there </p>
-          : null
-        }
+        {location.state && location.state.referrer ? (
+          <p> You need to log in to go there </p>
+        ) : null}
         <Switch>
           <Route path="/login" render={this.renderLoginForm} />
           <Route path="/signup" render={this.renderSignupForm} />
@@ -125,17 +122,19 @@ class AuthContainer extends Component {
 
 const mapStateToProps = ({ auth }) => ({ auth })
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loginUser: (credentials) => dispatch({
-      type: REQUEST_AUTH_LOGIN,
-      payload: { credentials: credentials }
-    }),
-    signupUser: (userInfo) => dispatch({
-      type: REQUEST_AUTH_SIGNUP,
-      payload: { userInfo }
-    })
+    loginUser: credentials =>
+      dispatch({
+        type: REQUEST_AUTH_LOGIN,
+        payload: { credentials: credentials }
+      }),
+    signupUser: userInfo =>
+      dispatch({
+        type: REQUEST_AUTH_SIGNUP,
+        payload: { userInfo }
+      })
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthContainer)

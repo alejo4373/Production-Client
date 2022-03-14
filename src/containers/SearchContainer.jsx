@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { SearchForm } from '../components/Search/SearchForm'
 import * as api from '../api'
+import { SearchForm } from '../components/Search/SearchForm'
 import JournalEntry from '../components/Journal/JournalEntry'
+import React, { useState } from 'react'
 import TodosList from '../components/Todos/TodosList'
 
 const SearchContainer = () => {
@@ -25,7 +25,6 @@ const SearchContainer = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    console.log('Submitting', searchTerms, itemsSelectedOption)
     let todosResults = []
     let entriesResults = []
     if (itemsSelectedOption === itemOptions.ALL) {
