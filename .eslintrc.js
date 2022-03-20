@@ -5,7 +5,7 @@ module.exports = {
     }
   },
   parser: 'babel-eslint',
-  plugins: ['unused-imports', 'react-hooks', 'sort-imports-es6-autofix'],
+  plugins: ['unused-imports', 'react-hooks', 'sort-imports-es6-autofix', 'jest'],
   extends: ['eslint:recommended', 'plugin:react/recommended'],
   rules: {
     'no-case-declarations': ['off'],
@@ -35,6 +35,7 @@ module.exports = {
   },
   env: {
     browser: true,
-    node: true
+    node: true,
+    'jest/globals': true
   }
 }

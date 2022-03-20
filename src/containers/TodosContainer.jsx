@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Switch, Route, Link } from 'react-router-dom';
 import '../styles/Todos.css'
-import Todos from '../components/Todos';
-import TodoPage from '../components/Todos/TodoPage';
-import TagsList from '../components/Tags/TagsList';
+import { Link, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import TagsList from '../components/Tags/TagsList'
+import TodoPage from '../components/Todos/TodoPage'
+import Todos from '../components/Todos'
 
 import {
+  REQUEST_ADD_TAG,
   REQUEST_ADD_TODO,
-  REQUEST_FETCH_TODOS,
-  REQUEST_FETCH_TODO,
-  REQUEST_UPDATE_TODO,
   REQUEST_DELETE_TODO,
-  SET_TODOS_FILTER,
-  REQUEST_TOGGLE_TODO_COMPLETED,
+  REQUEST_FETCH_TODO,
+  REQUEST_FETCH_TODOS,
   REQUEST_FETCH_TODOS_BY_TAGS,
   REQUEST_REMOVE_TAG,
-  REQUEST_ADD_TAG,
-} from '../store/actionTypes/todos';
+  REQUEST_TOGGLE_TODO_COMPLETED,
+  REQUEST_UPDATE_TODO,
+  SET_TODOS_FILTER
+} from '../store/actionTypes/todos'
 import { REQUEST_LISTS } from '../store/actionTypes/lists'
-import { applyTodosFilter } from '../util/todos';
+import { applyTodosFilter } from '../util/todos'
 
 class TodosContainer extends Component {
-
   /* Todo's Ops */
-  deleteTodo = (todoId) => {
+  deleteTodo = todoId => {
     this.props.deleteTodo(todoId)
   }
 
@@ -32,16 +31,16 @@ class TodosContainer extends Component {
     this.props.fetchTodos()
   }
 
-  getTodo = (id) => {
+  getTodo = id => {
     this.props.fetchTodo(id)
   }
 
-  filterTodos = (id) => {
+  filterTodos = id => {
     this.props.setTodosFilter(id)
   }
 
-  toggleCompleted = (id) => {
-    this.props.toggleTodoCompleted(id);
+  toggleCompleted = id => {
+    this.props.toggleTodoCompleted(id)
   }
 
   updateTodo = (todoId, updates) => {
@@ -56,12 +55,11 @@ class TodosContainer extends Component {
     this.props.requestAddTag(id, tag)
   }
 
-
-  getTodosByTags = async (tagsQueryString) => {
+  getTodosByTags = async tagsQueryString => {
     this.props.fetchTodosByTags(tagsQueryString)
   }
 
-  renderTodos = (routeProps) => {
+  renderTodos = routeProps => {
     const { todos, filter } = this.props.todos
     const { lists } = this.props
     let filteredTodos = applyTodosFilter(todos, filter)
@@ -83,7 +81,7 @@ class TodosContainer extends Component {
     )
   }
 
-  renderTodoPage = (routeProps) => {
+  renderTodoPage = routeProps => {
     const todo = this.props.todos.activeTodo
     return (
       <TodoPage
@@ -120,29 +118,34 @@ class TodosContainer extends Component {
 
 const mapStateToProps = ({ todos, lists }) => ({ todos: todos, lists: lists.lists })
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    addTodo: (todo) => dispatch({ type: REQUEST_ADD_TODO, todo: todo }),
+    addTodo: todo => dispatch({ type: REQUEST_ADD_TODO, todo: todo }),
     fetchTodos: () => dispatch({ type: REQUEST_FETCH_TODOS }),
-    fetchTodosByTags: (tagsQueryString) => dispatch({ type: REQUEST_FETCH_TODOS_BY_TAGS, payload: tagsQueryString }),
-    fetchTodo: (id) => dispatch({ type: REQUEST_FETCH_TODO, id }),
-    updateTodo: (id, todoUpdates) => dispatch({
-      type: REQUEST_UPDATE_TODO,
-      payload: { id, todoUpdates }
-    }),
-    toggleTodoCompleted: (id) => dispatch({
-      type: REQUEST_TOGGLE_TODO_COMPLETED,
-      payload: { id }
-    }),
-    deleteTodo: (id) => dispatch({
-      type: REQUEST_DELETE_TODO,
-      payload: { id }
-    }),
-    setTodosFilter: (filter) => dispatch({ type: SET_TODOS_FILTER, payload: { filter } }),
-    removeTagFromTodo: (id, tag) => dispatch({ type: REQUEST_REMOVE_TAG, payload: { id, tag } }),
+    fetchTodosByTags: tagsQueryString =>
+      dispatch({ type: REQUEST_FETCH_TODOS_BY_TAGS, payload: tagsQueryString }),
+    fetchTodo: id => dispatch({ type: REQUEST_FETCH_TODO, id }),
+    updateTodo: (id, todoUpdates) =>
+      dispatch({
+        type: REQUEST_UPDATE_TODO,
+        payload: { id, todoUpdates }
+      }),
+    toggleTodoCompleted: id =>
+      dispatch({
+        type: REQUEST_TOGGLE_TODO_COMPLETED,
+        payload: { id }
+      }),
+    deleteTodo: id =>
+      dispatch({
+        type: REQUEST_DELETE_TODO,
+        payload: { id }
+      }),
+    setTodosFilter: filter => dispatch({ type: SET_TODOS_FILTER, payload: { filter } }),
+    removeTagFromTodo: (id, tag) =>
+      dispatch({ type: REQUEST_REMOVE_TAG, payload: { id, tag } }),
     requestAddTag: (id, tag) => dispatch({ type: REQUEST_ADD_TAG, payload: { id, tag } }),
-    requestLists: () => dispatch({ type: REQUEST_LISTS }),
+    requestLists: () => dispatch({ type: REQUEST_LISTS })
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TodosContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TodosContainer)
