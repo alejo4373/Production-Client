@@ -1,0 +1,9 @@
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.recaptcha-wrapper {
+  display: flex;
+  flex-direction: column;
+}

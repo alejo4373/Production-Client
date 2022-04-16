@@ -1,15 +1,19 @@
 .control-strip {
   display: grid;
-  margin-top: .5em;
+  margin-top: 0.5em;
 }
 
 .control-strip__control {
   font-size: 16px;
-/* Same as trix-editor */
-  padding: 0.4em 0.6em; 
+  /* Same as trix-editor */
+  padding: 0.4em 0.6em;
   border: 1px solid #bbb;
   border-radius: 3px;
   background-color: white;
+}
+
+.control-strip__control--vertical {
+  margin-bottom: 8px;
 }
 
 .control-strip .control-strip__two-col-row {

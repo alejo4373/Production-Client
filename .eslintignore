@@ -19,3 +19,4 @@ yarn.lock
 *.mp4
 *.woff2
 .eslintrc.js
+*.css
