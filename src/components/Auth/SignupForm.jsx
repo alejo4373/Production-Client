@@ -39,12 +39,15 @@ const SignupForm = ({
           placeholder="***"
           onChange={handleChange}
         />
-        <ReCAPTCHA
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-          onChange={handleCaptcha}
-          onErrored={handleCaptchaError}
-        />
-        <p>{message}</p>
+        <div className="recaptcha-wrapper">
+          <ReCAPTCHA
+            style={{ display: 'inline-block' }}
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={handleCaptcha}
+            onErrored={handleCaptchaError}
+          />
+        </div>
+        {message && <p>{message}</p>}
         <input
           className="control-strip__control control-strip__control--vertical"
           type="submit"
