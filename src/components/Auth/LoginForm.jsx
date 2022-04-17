@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LoginForm = ({ username, password, handleChange, handleSubmit }) => {
+const LoginForm = ({ username, password, message, handleChange, handleSubmit }) => {
   return (
     <div>
       <h2> Log-In </h2>
@@ -21,6 +21,7 @@ const LoginForm = ({ username, password, handleChange, handleSubmit }) => {
           placeholder="***"
           onChange={handleChange}
         />
+        {message && <p>{message}</p>}
         <input
           className="control-strip__control control-strip__control--vertical"
           type="submit"
