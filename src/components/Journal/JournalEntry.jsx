@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { get24HourTimeString } from '../../util'
-import '../../styles/JournalEntry.css'
+import './JournalEntry.css'
 import { MoreMenu } from '../shared/MoreMenu'
+import { get24HourTimeString } from '../../util'
+import React, { useState } from 'react'
+import Tags from '../shared/Tags'
 import TrixEditor from '../shared/TrixEditor/TrixEditor'
 
 const JournalEntry = ({ entry, updateJournalEntry, showFullDate }) => {
@@ -36,6 +37,11 @@ const JournalEntry = ({ entry, updateJournalEntry, showFullDate }) => {
   return (
     <li className="entry">
       <span className="entry__date">{showFullDate ? date.toLocaleString() : time}</span>
+      <Tags
+        tags={entry.tags}
+        // Todo: Implement removal of tags for Journal entries
+        handleRemoveTag={() => console.warn('Remove tag not implemented')}
+      />
       {editing ? (
         <div>
           <TrixEditor value={text} id={entry.id} onChange={handleTextChange} />
@@ -48,9 +54,6 @@ const JournalEntry = ({ entry, updateJournalEntry, showFullDate }) => {
           <MoreMenu handleEditClick={handleEditing} handleDeleteClick={handleDelete} />
         </div>
       )}
-      <div>
-        <p>🏷 {entry.tags.join(', ')}</p>
-      </div>
     </li>
   )
 }

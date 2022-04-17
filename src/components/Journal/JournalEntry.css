@@ -1,17 +1,18 @@
 /* 
-
-Trying to follow BEN conventions and tips from here 
-https://www.smashingmagazine.com/2016/06/battling-bem-extended-edition-common-problems-and-how-to-avoid-them/
-
+  Trying to follow BEN conventions and tips from here 
+  https://www.smashingmagazine.com/2016/06/battling-bem-extended-edition-common-problems-and-how-to-avoid-them/
 */
 
 .entry {
   list-style: none;
   position: relative; /* to create stacking context for MoreMenu*/
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(168, 168, 168, 0.6);
 }
 
 .entry__text {
   font-family: Helvetica, Arial, sans-serif;
+  margin-bottom: 8px;
 }
 
 .entry__date {

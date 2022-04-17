@@ -1,8 +1,8 @@
 import '../../styles/TodoPage.css'
 import * as api from '../../api'
 import { MoreMenu } from '../shared/MoreMenu'
-import { Tag } from '../shared/Tag'
 import React, { Component } from 'react'
+import Tags from '../shared/Tags'
 import TodoForm from './TodoForm'
 
 class TodoPage extends Component {
@@ -74,8 +74,8 @@ class TodoPage extends Component {
   }
 
   handleAddTag = () => {
-    const { tag } = this.state
-    const { requestAddTag, todo } = this.props
+    const { tag, todo } = this.state
+    const { requestAddTag } = this.props
     requestAddTag(todo.id, tag)
   }
 
@@ -118,13 +118,11 @@ class TodoPage extends Component {
         />
         {/* Todo: Implement a tag editor an integrate with TodoForm */}
         <div className="tags">
-          <ul className="tags__list">
-            {' '}
-            🏷{' '}
-            {todo.tags.map(tag => (
-              <Tag key={tag} name={tag} handleRemoveTag={this.handleRemoveTag} />
-            ))}
-          </ul>
+          <Tags
+            tags={todo.tags}
+            areTodoTags={true}
+            handleRemoveTag={this.handleRemoveTag}
+          />
           <input type="text" onChange={this.handleTagInput} value={tag} />
           <button onClick={this.handleAddTag}>Add Tag</button>
         </div>
