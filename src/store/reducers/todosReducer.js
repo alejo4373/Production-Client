@@ -1,8 +1,6 @@
 import {
-  ADD_TAG,
   RECEIVE_TODO,
   RECEIVE_TODOS,
-  REMOVE_TAG,
   REMOVE_TODO,
   SET_ACTIVE_TODO,
   SET_TODOS_FILTER,
@@ -61,25 +59,6 @@ const todosReducer = (state = initialState, { type, payload }) => {
         if (t.id === todo.id) return todo
         return t
       })
-      return newState
-
-    case REMOVE_TAG:
-      // Will only happen when removing a tag in the TodoPage
-      const { removedTag } = payload
-      const remainingTags = activeTodo.tags.filter(tag => tag !== removedTag.name)
-      newState.activeTodo = {
-        ...activeTodo,
-        tags: remainingTags
-      }
-      return newState
-
-    case ADD_TAG:
-      // Will only happen when removing a tag in the TodoPage
-      const { addedTag } = payload
-      newState.activeTodo = {
-        ...activeTodo,
-        tags: [...activeTodo.tags, addedTag.name]
-      }
       return newState
 
     default:

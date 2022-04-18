@@ -7,13 +7,11 @@ import TodoPage from '../components/Todos/TodoPage'
 import Todos from '../components/Todos'
 
 import {
-  REQUEST_ADD_TAG,
   REQUEST_ADD_TODO,
   REQUEST_DELETE_TODO,
   REQUEST_FETCH_TODO,
   REQUEST_FETCH_TODOS,
   REQUEST_FETCH_TODOS_BY_TAGS,
-  REQUEST_REMOVE_TAG,
   REQUEST_TOGGLE_TODO_COMPLETED,
   REQUEST_UPDATE_TODO,
   SET_TODOS_FILTER
@@ -45,14 +43,6 @@ class TodosContainer extends Component {
 
   updateTodo = (todoId, updates) => {
     this.props.updateTodo(todoId, updates)
-  }
-
-  removeTagFromTodo = (id, tag) => {
-    this.props.removeTagFromTodo(id, tag)
-  }
-
-  requestAddTag = (id, tag) => {
-    this.props.requestAddTag(id, tag)
   }
 
   getTodosByTags = async tagsQueryString => {
@@ -92,8 +82,6 @@ class TodosContainer extends Component {
         toggleCompleted={this.toggleCompleted}
         updateTodo={this.updateTodo}
         deleteTodo={this.deleteTodo}
-        removeTagFromTodo={this.removeTagFromTodo}
-        requestAddTag={this.requestAddTag}
         requestLists={this.props.requestLists}
       />
     )
@@ -141,9 +129,6 @@ const mapDispatchToProps = dispatch => {
         payload: { id }
       }),
     setTodosFilter: filter => dispatch({ type: SET_TODOS_FILTER, payload: { filter } }),
-    removeTagFromTodo: (id, tag) =>
-      dispatch({ type: REQUEST_REMOVE_TAG, payload: { id, tag } }),
-    requestAddTag: (id, tag) => dispatch({ type: REQUEST_ADD_TAG, payload: { id, tag } }),
     requestLists: () => dispatch({ type: REQUEST_LISTS })
   }
 }

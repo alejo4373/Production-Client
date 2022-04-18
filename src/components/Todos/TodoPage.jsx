@@ -10,7 +10,9 @@ class TodoPage extends Component {
   state = {
     editing: false,
     loading: true,
-    todo: null
+    todo: null,
+    error: '',
+    tag: ''
   }
 
   /* Todo: Have this component manage it's own state and not need props*/
@@ -67,16 +69,40 @@ class TodoPage extends Component {
     history.goBack()
   }
 
-  handleRemoveTag = tag => {
-    const { removeTagFromTodo } = this.props
+  handleRemoveTag = async tag => {
     const { todo } = this.state
-    removeTagFromTodo(todo.id, tag)
+    try {
+      const { data } = await api.removeTagFromTodo(todo.id, tag)
+      const { removedTag } = data.payload
+      this.setState({
+        todo: {
+          ...todo,
+          tags: todo.tags.filter(tag => tag !== removedTag.name)
+        }
+      })
+    } catch (err) {
+      window.alert(`There was a problem removing the tag =(`)
+      console.error(err)
+    }
   }
 
-  handleAddTag = () => {
+  handleAddTag = async () => {
     const { tag, todo } = this.state
-    const { requestAddTag } = this.props
-    requestAddTag(todo.id, tag)
+    try {
+      let { data } = await api.requestAddTag(todo.id, tag)
+      this.setState({
+        todo: { ...todo, tags: [...todo.tags, data.payload.addedTag.name] }
+      })
+    } catch (err) {
+      window.alert(`There was a problem adding the tag =(`)
+      console.error(err)
+    }
+  }
+
+  handleTagInput = e => {
+    this.setState({
+      tag: e.target.value
+    })
   }
 
   setEditing = value => {

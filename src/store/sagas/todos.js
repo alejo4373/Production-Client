@@ -1,23 +1,19 @@
 import * as api from '../../api'
+import { RECEIVE_ERROR } from '../actionTypes/comm'
 import {
-  ADD_TAG,
   RECEIVE_TODO,
   RECEIVE_TODOS,
-  REMOVE_TAG,
   REMOVE_TODO,
-  REQUEST_ADD_TAG,
   REQUEST_ADD_TODO,
   REQUEST_DELETE_TODO,
   REQUEST_FETCH_TODO,
   REQUEST_FETCH_TODOS,
   REQUEST_FETCH_TODOS_BY_TAGS,
-  REQUEST_REMOVE_TAG,
   REQUEST_TOGGLE_TODO_COMPLETED,
   REQUEST_UPDATE_TODO,
   SET_ACTIVE_TODO,
   UPDATE_TODO
 } from '../actionTypes/todos'
-import { RECEIVE_ERROR } from '../actionTypes/comm'
 import { call, put, takeEvery } from 'redux-saga/effects'
 
 function* addTodo(action) {
@@ -90,28 +86,6 @@ function* toggleTodoCompleted(action) {
   }
 }
 
-function* removeTagFromTodo(action) {
-  const { payload } = action
-  try {
-    const { data } = yield call(api.removeTagFromTodo, payload.id, payload.tag)
-    yield put({ type: REMOVE_TAG, payload: data.payload })
-  } catch (err) {
-    console.error(err)
-    yield put({ type: RECEIVE_ERROR, error: err })
-  }
-}
-
-function* requestAddTag(action) {
-  const { payload } = action
-  try {
-    const { data } = yield call(api.requestAddTag, payload.id, payload.tag)
-    yield put({ type: ADD_TAG, payload: data.payload })
-  } catch (err) {
-    console.error(err)
-    yield put({ type: RECEIVE_ERROR, error: err })
-  }
-}
-
 function* todosSagaWatcher() {
   yield takeEvery(REQUEST_ADD_TODO, addTodo)
   yield takeEvery(REQUEST_FETCH_TODOS, fetchTodos)
@@ -120,8 +94,6 @@ function* todosSagaWatcher() {
   yield takeEvery(REQUEST_UPDATE_TODO, updateTodo)
   yield takeEvery(REQUEST_DELETE_TODO, deleteTodo)
   yield takeEvery(REQUEST_TOGGLE_TODO_COMPLETED, toggleTodoCompleted)
-  yield takeEvery(REQUEST_REMOVE_TAG, removeTagFromTodo)
-  yield takeEvery(REQUEST_ADD_TAG, requestAddTag)
 }
 
 export default todosSagaWatcher
