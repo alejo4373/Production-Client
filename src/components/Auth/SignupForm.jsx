@@ -16,7 +16,7 @@ const SignupForm = ({
       <h2> Sign-Up </h2>
       <form name="signup" onSubmit={handleSubmit} className="auth-form">
         <input
-          className="control-strip__control control-strip__control--vertical"
+          className="control control--vertical"
           type="email"
           name="email"
           value={email}
@@ -24,7 +24,7 @@ const SignupForm = ({
           onChange={handleChange}
         />
         <input
-          className="control-strip__control control-strip__control--vertical"
+          className="control control--vertical"
           type="text"
           name="username"
           value={username}
@@ -32,7 +32,7 @@ const SignupForm = ({
           onChange={handleChange}
         />
         <input
-          className="control-strip__control control-strip__control--vertical"
+          className="control control--vertical"
           type="password"
           name="password"
           value={password}
@@ -47,11 +47,7 @@ const SignupForm = ({
           />
         </div>
         {message && <p>{message}</p>}
-        <input
-          className="control-strip__control control-strip__control--vertical"
-          type="submit"
-          value="Sign-Up"
-        />
+        <input className="control control--vertical" type="submit" value="Sign-Up" />
       </form>
     </div>
   )

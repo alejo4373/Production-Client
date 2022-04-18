@@ -143,14 +143,23 @@ class TodoPage extends Component {
           requestLists={this.props.requestLists}
         />
         {/* Todo: Implement a tag editor an integrate with TodoForm */}
-        <div className="tags">
+        <div className="todo-tags">
           <Tags
             tags={todo.tags}
             areTodoTags={true}
             handleRemoveTag={this.handleRemoveTag}
           />
-          <input type="text" onChange={this.handleTagInput} value={tag} />
-          <button onClick={this.handleAddTag}>Add Tag</button>
+          <div className="control-strip--horizontal">
+            <input
+              className="control"
+              type="text"
+              onChange={this.handleTagInput}
+              value={tag}
+            />
+            <button className="control" onClick={this.handleAddTag}>
+              Add Tag
+            </button>
+          </div>
         </div>
       </div>
     )

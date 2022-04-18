@@ -1,4 +1,3 @@
-import '../styles/control-strip.css'
 import './AuthContainer.css'
 import { REQUEST_AUTH_LOGIN, REQUEST_AUTH_SIGNUP } from '../store/actionTypes/auth'
 import { Route, Switch } from 'react-router-dom'

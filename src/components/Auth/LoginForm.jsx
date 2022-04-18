@@ -6,7 +6,7 @@ const LoginForm = ({ username, password, message, handleChange, handleSubmit }) 
       <h2> Log-In </h2>
       <form onSubmit={handleSubmit} className="auth-form">
         <input
-          className="control-strip__control control-strip__control--vertical"
+          className="control control--vertical"
           type="text"
           name="username"
           value={username}
@@ -14,7 +14,7 @@ const LoginForm = ({ username, password, message, handleChange, handleSubmit }) 
           onChange={handleChange}
         />
         <input
-          className="control-strip__control control-strip__control--vertical"
+          className="control control--vertical"
           type="password"
           name="password"
           value={password}
@@ -22,11 +22,7 @@ const LoginForm = ({ username, password, message, handleChange, handleSubmit }) 
           onChange={handleChange}
         />
         {message && <p>{message}</p>}
-        <input
-          className="control-strip__control control-strip__control--vertical"
-          type="submit"
-          value="log-in"
-        />
+        <input className="control control--vertical" type="submit" value="log-in" />
       </form>
     </div>
   )

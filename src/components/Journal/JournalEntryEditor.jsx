@@ -1,7 +1,6 @@
-import React from 'react';
-import TrixEditor from '../shared/TrixEditor/TrixEditor'
+import React from 'react'
 import TagsInput from '../shared/TagsInput/TagsInput'
-import '../../styles/control-strip.css'
+import TrixEditor from '../shared/TrixEditor/TrixEditor'
 
 const JournalEntryEditor = props => {
   const { handleEntryText, handleTagsChange, handleSubmit, entryText, entryTags } = props
@@ -15,10 +14,10 @@ const JournalEntryEditor = props => {
       />
       <div className="control-strip__two-col-row">
         <TagsInput onChange={value => handleTagsChange(value)} value={entryTags} />
-        <button className="control-strip__control">Add</button>
+        <button className="control">Add</button>
       </div>
     </form>
   )
 }
 
-export default JournalEntryEditor;
+export default JournalEntryEditor
