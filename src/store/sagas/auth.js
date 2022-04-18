@@ -1,16 +1,15 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
-import * as api from '../../api';
-import { RESET_STATE } from '../actionTypes/comm'
+import * as api from '../../api'
 import {
-  RECEIVE_AUTH_SUCCESS,
   RECEIVE_AUTH_ERROR,
-  SET_AUTH_LOADING,
-
+  RECEIVE_AUTH_SUCCESS,
   REQUEST_AUTH_LOGIN,
-  REQUEST_AUTH_SIGNUP,
   REQUEST_AUTH_LOGOUT,
-  REQUEST_AUTH_STATUS
+  REQUEST_AUTH_SIGNUP,
+  REQUEST_AUTH_STATUS,
+  SET_AUTH_LOADING
 } from '../actionTypes/auth'
+import { RESET_STATE } from '../actionTypes/comm'
+import { call, put, takeEvery } from 'redux-saga/effects'
 
 function* loginUser(action) {
   try {
@@ -18,9 +17,13 @@ function* loginUser(action) {
     yield put({
       type: RECEIVE_AUTH_SUCCESS,
       payload: { username: data.payload.user.username }
-    });
+    })
   } catch (err) {
-    yield put({ type: RECEIVE_AUTH_ERROR, error: action.error })
+    let errMessage = 'Unknown error'
+    if (err.response.data.error) {
+      errMessage = err.response.data.message
+    }
+    yield put({ type: RECEIVE_AUTH_ERROR, error: errMessage })
   }
 }
 
@@ -32,9 +35,12 @@ function* signupUser(action) {
       payload: { username: data.payload.user.username }
     })
   } catch (err) {
-    const { message } = err.response.data
-    yield put({ type: RECEIVE_AUTH_ERROR, error: message })
-
+    let errMessage = 'Unknown error'
+    const { data } = err.response
+    if (data.error) {
+      errMessage = data.message
+    }
+    yield put({ type: RECEIVE_AUTH_ERROR, error: errMessage })
   }
 }
 
@@ -43,8 +49,12 @@ function* logoutUser(action) {
     yield call(api.logout)
     yield put({ type: RESET_STATE })
   } catch (err) {
-    const { message } = err.response.data
-    yield put({ type: RECEIVE_AUTH_ERROR, error: message })
+    let errMessage = 'Unknown error'
+    const { data } = err.response
+    if (data.error) {
+      errMessage = data.message
+    }
+    yield put({ type: RECEIVE_AUTH_ERROR, error: errMessage })
   }
 }
 
@@ -57,16 +67,20 @@ function* checkAuthStatus() {
       payload: { username: data.payload.user.username }
     })
   } catch (err) {
-    const { message } = err.response.data
-    yield put({ type: RECEIVE_AUTH_ERROR, error: message })
+    let errMessage = 'Unknown error'
+    const { data } = err.response
+    if (data.error) {
+      errMessage = data.message
+    }
+    yield put({ type: RECEIVE_AUTH_ERROR, error: errMessage })
   }
 }
 
 function* authSagaWatcher() {
-  yield takeEvery(REQUEST_AUTH_LOGIN, loginUser);
-  yield takeEvery(REQUEST_AUTH_SIGNUP, signupUser);
-  yield takeEvery(REQUEST_AUTH_LOGOUT, logoutUser);
-  yield takeEvery(REQUEST_AUTH_STATUS, checkAuthStatus);
+  yield takeEvery(REQUEST_AUTH_LOGIN, loginUser)
+  yield takeEvery(REQUEST_AUTH_SIGNUP, signupUser)
+  yield takeEvery(REQUEST_AUTH_LOGOUT, logoutUser)
+  yield takeEvery(REQUEST_AUTH_STATUS, checkAuthStatus)
 }
 
-export default authSagaWatcher;
+export default authSagaWatcher

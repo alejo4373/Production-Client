@@ -10,37 +10,3 @@
 .todo-page .todo-text-input {
   margin: 16px 0;
 }
-
-.tags__list {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.tag {
-  background-color: lightgray;
-  font-size: 14px;
-  margin-right: 2px;
-  border-radius: 15px;
-  padding: 2px 6px;
-}
-
-.tag__label {
-  text-decoration: none;
-  color: black;
-}
-
-.tag__label:hover {
-  text-decoration: underline;
-}
-
-.tag__remove-btn {
-  border: none;
-  background: transparent;
-  padding: 0;
-  margin-left: 5px;
-  cursor: pointer;
-}
-

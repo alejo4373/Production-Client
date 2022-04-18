@@ -10,5 +10,5 @@ export const sampleTodo = {
   due_at: null,
   text_searchable: "'laundri':2",
   list_id: null,
-  tags: []
+  tags: ['upon', 'chore']
 }

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import TrixEditor from '../shared/TrixEditor/TrixEditor'
 import DatePicker from 'react-datepicker'
+import React, { useEffect, useState } from 'react'
 import TagsInput from '../shared/TagsInput/TagsInput'
-import '../../styles/control-strip.css'
+import TrixEditor from '../shared/TrixEditor/TrixEditor'
 
 const TodoForm = ({
   todo,
@@ -58,7 +57,7 @@ const TodoForm = ({
           <select
             value={listId}
             onChange={e => setListId(e.target.value)}
-            className="control-strip__control"
+            className="control"
           >
             <option value="-1" disabled>
               Select a list for todo
@@ -98,7 +97,7 @@ const TodoForm = ({
         ) : null}
         <div className="control-strip__two-col-row">
           <input
-            className="control-strip__control"
+            className="control"
             onChange={e => setTodoValue(e.target.value)}
             value={todoValue}
             placeholder={'Value'}
@@ -106,7 +105,7 @@ const TodoForm = ({
             min="100"
             required
           />
-          <button className="control-strip__control">{cta}</button>
+          <button className="control">{cta}</button>
         </div>
       </div>
     </form>

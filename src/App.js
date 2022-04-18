@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import './styles/App.css'
+import './styles/reset.css'
+import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-import './styles/App.css';
-import { Switch, Route } from 'react-router-dom';
-import Private from './containers/Private';
-import Public from './containers/Public';
 import { requestAuthStatus } from './store/actions/auth'
+import Private from './containers/Private'
+import Public from './containers/Public'
+import React, { Component } from 'react'
 
 class App extends Component {
   state = {
@@ -12,7 +13,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.props.requestAuthStatus();
+    this.props.requestAuthStatus()
   }
 
   componentDidUpdate(prevProps) {
@@ -28,18 +29,18 @@ class App extends Component {
     const { auth } = this.props
     const { fetchingAuthStatus } = this.state
     return (
-      <div className="App">{
-        fetchingAuthStatus
-          ? <p>Loading...</p>
-          : (
-            <Switch>
-              <Route exact path="/(|login|signup)" component={Public} />
-              <Private auth={auth} />
-            </Switch>
-          )
-      }</div>
-    );
+      <div className="App">
+        {fetchingAuthStatus ? (
+          <p>Loading...</p>
+        ) : (
+          <Switch>
+            <Route exact path="/(|login|signup)" component={Public} />
+            <Private auth={auth} />
+          </Switch>
+        )}
+      </div>
+    )
   }
 }
 
-export default connect(({ auth }) => ({ auth }), { requestAuthStatus })(App);
+export default connect(({ auth }) => ({ auth }), { requestAuthStatus })(App)

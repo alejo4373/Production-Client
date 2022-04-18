@@ -1,8 +1,8 @@
 import '../../styles/TodoPage.css'
 import * as api from '../../api'
 import { MoreMenu } from '../shared/MoreMenu'
-import { Tag } from '../shared/Tag'
 import React, { Component } from 'react'
+import Tags from '../shared/Tags'
 import TodoForm from './TodoForm'
 
 class TodoPage extends Component {
@@ -10,7 +10,9 @@ class TodoPage extends Component {
   state = {
     editing: false,
     loading: true,
-    todo: null
+    todo: null,
+    error: '',
+    tag: ''
   }
 
   /* Todo: Have this component manage it's own state and not need props*/
@@ -67,16 +69,40 @@ class TodoPage extends Component {
     history.goBack()
   }
 
-  handleRemoveTag = tag => {
-    const { removeTagFromTodo } = this.props
+  handleRemoveTag = async tag => {
     const { todo } = this.state
-    removeTagFromTodo(todo.id, tag)
+    try {
+      const { data } = await api.requestRemoveTag(todo.id, tag)
+      const { removedTag } = data.payload
+      this.setState({
+        todo: {
+          ...todo,
+          tags: todo.tags.filter(tag => tag !== removedTag.name)
+        }
+      })
+    } catch (err) {
+      window.alert(`There was a problem removing the tag =(`)
+      console.error(err)
+    }
   }
 
-  handleAddTag = () => {
-    const { tag } = this.state
-    const { requestAddTag, todo } = this.props
-    requestAddTag(todo.id, tag)
+  handleAddTag = async () => {
+    const { tag, todo } = this.state
+    try {
+      let { data } = await api.requestAddTag(todo.id, tag)
+      this.setState({
+        todo: { ...todo, tags: [...todo.tags, data.payload.addedTag.name] }
+      })
+    } catch (err) {
+      window.alert(`There was a problem adding the tag =(`)
+      console.error(err)
+    }
+  }
+
+  handleTagInput = e => {
+    this.setState({
+      tag: e.target.value
+    })
   }
 
   setEditing = value => {
@@ -117,16 +143,24 @@ class TodoPage extends Component {
           requestLists={this.props.requestLists}
         />
         {/* Todo: Implement a tag editor an integrate with TodoForm */}
-        <div className="tags">
-          <ul className="tags__list">
-            {' '}
-            🏷{' '}
-            {todo.tags.map(tag => (
-              <Tag key={tag} name={tag} handleRemoveTag={this.handleRemoveTag} />
-            ))}
-          </ul>
-          <input type="text" onChange={this.handleTagInput} value={tag} />
-          <button onClick={this.handleAddTag}>Add Tag</button>
+        <div className="todo-tags">
+          <Tags
+            tags={todo.tags}
+            areTodoTags={true}
+            handleRemoveTag={this.handleRemoveTag}
+          />
+          <div className="control-strip--horizontal">
+            <input
+              className="control"
+              type="text"
+              onChange={this.handleTagInput}
+              value={tag}
+              placeholder="new-tag"
+            />
+            <button className="control" onClick={this.handleAddTag}>
+              Add Tag
+            </button>
+          </div>
         </div>
       </div>
     )

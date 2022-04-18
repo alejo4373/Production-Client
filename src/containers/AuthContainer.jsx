@@ -1,4 +1,3 @@
-import '../styles/control-strip.css'
 import './AuthContainer.css'
 import { REQUEST_AUTH_LOGIN, REQUEST_AUTH_SIGNUP } from '../store/actionTypes/auth'
 import { Route, Switch } from 'react-router-dom'
@@ -67,14 +66,31 @@ class AuthContainer extends Component {
     })
   }
 
+  componentDidUpdate(prevProps) {
+    const { auth, location } = this.props
+    if (prevProps.auth !== auth) {
+      if (auth.error) {
+        this.setState({
+          message: auth.error
+        })
+      }
+    }
+
+    // Clear errors when changing routes
+    if (prevProps.location.pathname !== location.pathname) {
+      this.setState({ message: '' })
+    }
+  }
+
   renderLoginForm = routeProps => {
-    const { username, password } = this.state
+    const { username, password, message } = this.state
     return (
       <LoginForm
         username={username}
         password={password}
         handleChange={this.handleChange}
         handleSubmit={this.handleLogIn}
+        message={message}
         {...routeProps}
       />
     )

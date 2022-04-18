@@ -1,15 +1,23 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import React from 'react'
 
-export const Tag = ({ name, handleRemoveTag }) => {
+const Tag = ({ name, handleRemoveTag, isTodoTag }) => {
   const handleClick = () => {
     handleRemoveTag(name)
   }
 
+  // Todo: Once search thru browser query params is implemented remove `isTodoTag` prop
+  let to = isTodoTag ? `/todos?tags[]=${name}` : '#'
   return (
-    <li className="tag">
-      <Link className="tag__label" to={`/todos?tags[]=${name}`}>{name}</Link>
-      <button className="tag__remove-btn" onClick={handleClick}>×</button>
+    <li className="tag" data-testid="tag">
+      <Link className="tag__label" to={to}>
+        {name}
+      </Link>
+      <button className="tag__remove-btn" onClick={handleClick}>
+        ×
+      </button>
     </li>
   )
 }
+
+export default Tag
