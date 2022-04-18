@@ -9,7 +9,7 @@ const Tag = ({ name, handleRemoveTag, isTodoTag }) => {
   // Todo: Once search thru browser query params is implemented remove `isTodoTag` prop
   let to = isTodoTag ? `/todos?tags[]=${name}` : '#'
   return (
-    <li className="tag">
+    <li className="tag" data-testid="tag">
       <Link className="tag__label" to={to}>
         {name}
       </Link>

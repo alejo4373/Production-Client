@@ -72,7 +72,7 @@ class TodoPage extends Component {
   handleRemoveTag = async tag => {
     const { todo } = this.state
     try {
-      const { data } = await api.removeTagFromTodo(todo.id, tag)
+      const { data } = await api.requestRemoveTag(todo.id, tag)
       const { removedTag } = data.payload
       this.setState({
         todo: {
@@ -155,6 +155,7 @@ class TodoPage extends Component {
               type="text"
               onChange={this.handleTagInput}
               value={tag}
+              placeholder="new-tag"
             />
             <button className="control" onClick={this.handleAddTag}>
               Add Tag
