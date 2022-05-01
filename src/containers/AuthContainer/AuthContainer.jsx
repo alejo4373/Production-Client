@@ -6,6 +6,7 @@ import LoginForm from '../../components/Auth/LoginForm'
 import ReCAPTCHA from 'react-google-recaptcha'
 import React, { Component } from 'react'
 import SignupForm from '../../components/Auth/SignupForm'
+import Spacer from '../../components/shared/Spacer/Spacer'
 
 export class AuthContainer extends Component {
   constructor(props) {
@@ -123,6 +124,7 @@ export class AuthContainer extends Component {
           <Route path="/login" render={this.renderLoginForm} />
           <Route path="/signup" render={this.renderSignupForm} />
         </Switch>
+        <Spacer variant="horizontal" margin="10px 0px" />
         <div className="recaptcha-wrapper" data-testid="recaptcha-wrapper">
           <ReCAPTCHA
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
