@@ -140,7 +140,7 @@ export class AuthContainer extends Component {
             <Spacer variant="horizontal" margin="6px 0px" />
           </>
         )}
-        <Button label={isSignUpRoute ? 'Sign-Up' : 'Log-In'} />
+        <Button type="submit" label={isSignUpRoute ? 'Sign-Up' : 'Log-In'} />
       </form>
     )
   }
