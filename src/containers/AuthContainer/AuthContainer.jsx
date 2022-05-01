@@ -1,12 +1,14 @@
 import './AuthContainer.css'
-import { REQUEST_AUTH_LOGIN, REQUEST_AUTH_SIGNUP } from '../store/actionTypes/auth'
+import { REQUEST_AUTH_LOGIN, REQUEST_AUTH_SIGNUP } from '../../store/actionTypes/auth'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
-import LoginForm from '../components/Auth/LoginForm'
+import LoginForm from '../../components/Auth/LoginForm'
+import ReCAPTCHA from 'react-google-recaptcha'
 import React, { Component } from 'react'
-import SignupForm from '../components/Auth/SignupForm'
+import SignupForm from '../../components/Auth/SignupForm'
+import Spacer from '../../components/shared/Spacer/Spacer'
 
-class AuthContainer extends Component {
+export class AuthContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -19,20 +21,19 @@ class AuthContainer extends Component {
     }
   }
 
-  handleSignUp = e => {
+  handleSubmit = (e, isSignUpRoute) => {
     e.preventDefault()
     if (this.state.humanVerified) {
-      this.props.signupUser(this.state)
+      if (isSignUpRoute) {
+        this.props.signupUser(this.state)
+      } else {
+        this.props.loginUser(this.state)
+      }
     } else {
       this.setState({
         message: 'Please verify that you are not a robot and try again.'
       })
     }
-  }
-
-  handleLogIn = e => {
-    e.preventDefault()
-    this.props.loginUser(this.state)
   }
 
   handleChange = e => {
@@ -82,46 +83,40 @@ class AuthContainer extends Component {
     }
   }
 
-  renderLoginForm = routeProps => {
-    const { username, password, message } = this.state
+  renderLoginForm = () => {
+    const { username, password } = this.state
     return (
       <LoginForm
         username={username}
         password={password}
         handleChange={this.handleChange}
-        handleSubmit={this.handleLogIn}
-        message={message}
-        {...routeProps}
       />
     )
   }
 
-  renderSignupForm = routeProps => {
-    const { username, password, email, message } = this.state
+  renderSignupForm = () => {
+    const { username, password, email } = this.state
     return (
       <SignupForm
         username={username}
         password={password}
         email={email}
         handleChange={this.handleChange}
-        handleSubmit={this.handleSignUp}
-        handleCaptcha={this.handleCaptcha}
-        handleCaptchaError={this.handleCaptchaError}
-        message={message}
-        {...routeProps}
       />
     )
   }
 
   render() {
     const { history, location, auth } = this.props
+    const { message } = this.state
     const { referrer } = location.state || { referrer: '/profile' }
+    const isSignUpRoute = location.pathname === '/signup'
     if (auth.loggedIn) {
       history.replace(referrer)
     }
 
     return (
-      <>
+      <form onSubmit={e => this.handleSubmit(e, isSignUpRoute)} className="auth-form">
         {location.state && location.state.referrer ? (
           <p> You need to log in to go there </p>
         ) : null}
@@ -129,7 +124,21 @@ class AuthContainer extends Component {
           <Route path="/login" render={this.renderLoginForm} />
           <Route path="/signup" render={this.renderSignupForm} />
         </Switch>
-      </>
+        <Spacer variant="horizontal" margin="10px 0px" />
+        <div className="recaptcha-wrapper" data-testid="recaptcha-wrapper">
+          <ReCAPTCHA
+            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+            onChange={this.handleCaptcha}
+            onErrored={this.handleCaptchaError}
+          />
+        </div>
+        {message && <p>{message}</p>}
+        <input
+          className="control control--vertical"
+          type="submit"
+          value={isSignUpRoute ? 'Sign-Up' : 'Log-In'}
+        />
+      </form>
     )
   }
 }
