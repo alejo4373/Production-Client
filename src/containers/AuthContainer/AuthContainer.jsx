@@ -2,6 +2,7 @@ import './AuthContainer.css'
 import { REQUEST_AUTH_LOGIN, REQUEST_AUTH_SIGNUP } from '../../store/actionTypes/auth'
 import { Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+import Button from '../../components/shared/Buttons/Button'
 import LoginForm from '../../components/Auth/LoginForm'
 import ReCAPTCHA from 'react-google-recaptcha'
 import React, { Component } from 'react'
@@ -124,7 +125,7 @@ export class AuthContainer extends Component {
           <Route path="/login" render={this.renderLoginForm} />
           <Route path="/signup" render={this.renderSignupForm} />
         </Switch>
-        <Spacer variant="horizontal" margin="10px 0px" />
+        <Spacer variant="horizontal" margin="6px 0px" />
         <div className="recaptcha-wrapper" data-testid="recaptcha-wrapper">
           <ReCAPTCHA
             sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
@@ -132,12 +133,14 @@ export class AuthContainer extends Component {
             onErrored={this.handleCaptchaError}
           />
         </div>
-        {message && <p>{message}</p>}
-        <input
-          className="control control--vertical"
-          type="submit"
-          value={isSignUpRoute ? 'Sign-Up' : 'Log-In'}
-        />
+        <Spacer variant="horizontal" margin="6px 0px" />
+        {message && (
+          <>
+            <p>{message}</p>
+            <Spacer variant="horizontal" margin="6px 0px" />
+          </>
+        )}
+        <Button label={isSignUpRoute ? 'Sign-Up' : 'Log-In'} />
       </form>
     )
   }

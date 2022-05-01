@@ -20,7 +20,7 @@ const LoginForm = ({ username, password, handleChange }) => {
           fullWidth={true}
         />
       </FormControl>
-      <Spacer variant="horizontal" margin="10px 0px" />
+      <Spacer variant="horizontal" margin="6px 0px" />
       <FormControl variant="standard" fullWidth={true}>
         <InputLabel shrink htmlFor="password">
           Password
