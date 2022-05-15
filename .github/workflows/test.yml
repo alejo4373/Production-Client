@@ -1,0 +1,16 @@
+name: Test App
+on: [push]
+jobs:
+  install:
+    name: Install dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+      - run: yarn install
+  test:
+    needs: install
+    steps:
+      - run: yarn test
