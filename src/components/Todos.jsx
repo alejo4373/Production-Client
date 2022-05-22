@@ -12,6 +12,7 @@ const Todos = ({
   toggleCompleted,
   filterValue,
   isInList,
+  currListId,
   getTodosByTags,
   getAllTodos,
   requestLists,
@@ -34,12 +35,19 @@ const Todos = ({
 
   /* Event Handlers */
   const handleSubmit = ({ todoText, todoValue, tags, listId }) => {
+    let newListId = null
+    if (listId === '-1') {
+      if (isInList && currListId) newListId = currListId
+    } else {
+      newListId = listId
+    }
+
     const todo = {
       text: todoText.trim(),
       value: todoValue,
       completed: false,
       tags: sanitizeTags(tags.split(',')),
-      ...(listId !== '-1' && { list_id: listId })
+      list_id: newListId
     }
 
     if (todo.text && todo.value) {

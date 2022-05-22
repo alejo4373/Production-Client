@@ -1,8 +1,8 @@
-import React from 'react'
-import { useLocation, useRouteMatch } from 'react-router'
-import { useListPageState } from './ListPage.hooks'
-import Todos from '../Todos'
 import { applyTodosFilter } from '../../util/todos'
+import { useListPageState } from './ListPage.hooks'
+import { useLocation, useRouteMatch } from 'react-router'
+import React from 'react'
+import Todos from '../Todos'
 
 export const ListPage = ({ lists }) => {
   const match = useRouteMatch()
@@ -20,6 +20,7 @@ export const ListPage = ({ lists }) => {
         title={currList.name}
         todos={filteredTodos}
         isInList={true}
+        currListId={id}
         toggleCompleted={toggleTodoCompleted}
         getAllTodos={requestFetchTodos}
         addTodo={addTodo}
