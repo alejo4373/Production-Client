@@ -12,7 +12,6 @@ module.exports = {
     'plugin:@typescript-eslint/recommended'
   ],
   rules: {
-    'no-case-declarations': ['off'],
     'no-console': [
       'error',
       {
