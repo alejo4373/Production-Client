@@ -15,7 +15,7 @@ jobs:
           path: |
             ./node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}--
-      - run: yarn install --prod
+      - run: yarn install
   test:
     needs: install
     runs-on: ubuntu-latest
