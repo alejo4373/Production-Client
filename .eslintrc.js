@@ -4,9 +4,13 @@ module.exports = {
       version: 'detect'
     }
   },
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   plugins: ['unused-imports', 'react-hooks', 'sort-imports-es6-autofix', 'jest'],
-  extends: ['eslint:recommended', 'plugin:react/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended'
+  ],
   rules: {
     'no-case-declarations': ['off'],
     'no-console': [
@@ -23,6 +27,10 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/no-extra-semi': 'off',
+    '@typescript-eslint/explicit-function-return-type': [
+      'error',
+      { allowExpressions: true }
+    ],
     'no-extra-semi': 'off',
     'sort-imports-es6-autofix/sort-imports-es6': [
       'warn',
