@@ -1,4 +1,4 @@
-name: Test App
+name: Type-check App
 on: [push]
 jobs:
   install:
@@ -16,7 +16,7 @@ jobs:
             ./node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}--
       - run: yarn install
-  test:
+  type-check:
     needs: install
     runs-on: ubuntu-latest
     steps:
@@ -28,5 +28,4 @@ jobs:
           path: |
             ./node_modules
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}--
-      - run: ls -la
-      - run: yarn test
+      - run: yarn type-check

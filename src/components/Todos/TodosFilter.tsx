@@ -1,6 +1,14 @@
 import React from 'react'
 
-const TodosFilter = ({ handleFilterChange, filterValue }) => {
+type TodosFilterProps = {
+  handleFilterChange: (e: React.ChangeEvent) => void
+  filterValue: string
+}
+
+const TodosFilter = ({
+  handleFilterChange,
+  filterValue
+}: TodosFilterProps): JSX.Element => {
   return (
     <div>
       <input
@@ -32,7 +40,6 @@ const TodosFilter = ({ handleFilterChange, filterValue }) => {
         checked={filterValue === 'all'}
       />
       <label htmlFor="all">All</label>
-
     </div>
   )
 }
